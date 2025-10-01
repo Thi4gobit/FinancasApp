@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FinancasApp.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinancasApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MovimentacoesController : ControllerBase
+    public class MovimentacoesController (IMovimentacaoService service) : ControllerBase
     {
         [HttpPost]
         public IActionResult Post()

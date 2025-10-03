@@ -1,5 +1,6 @@
 ﻿using FinancasApp.Domain.Dtos;
 using FinancasApp.Domain.Entities;
+using FinancasApp.Domain.Interfaces.Messages;
 using FinancasApp.Domain.Interfaces.Repositories;
 using FinancasApp.Domain.Interfaces.Services;
 using FinancasApp.Domain.Validators;
@@ -14,7 +15,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FinancasApp.Domain.Services
 {
-    public class MovimentacaoService(IMovimentacaoRepository repository) : IMovimentacaoService
+    public class MovimentacaoService(IMovimentacaoRepository repository, IMessageProducer message) : IMovimentacaoService
     {
         public MovimentacaoResponse Criar(MovimentacaoRequest request)
         {
@@ -33,6 +34,8 @@ namespace FinancasApp.Domain.Services
                 throw new ValidationException(result.Errors);
 
             repository.Add(movimentacao);
+
+            message.Send(movimentacao);
 
             return ToResponse(movimentacao);
         }
